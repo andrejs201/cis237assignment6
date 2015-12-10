@@ -27,6 +27,8 @@
     </tr>
 
 @foreach (var item in Model) {
+    if (item.active)
+    {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.name)
@@ -46,6 +48,7 @@
             @Html.ActionLink("Delete", "Delete", new { id=item.id })
         </td>
     </tr>
+    }
 }
 
 </table>

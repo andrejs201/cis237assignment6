@@ -36,6 +36,7 @@ namespace cis237Assignment6.Controllers
         }
 
         // GET: /Beverages/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -44,6 +45,7 @@ namespace cis237Assignment6.Controllers
         // POST: /Beverages/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include="id,name,pack,price,active")] Beverage beverage)
@@ -59,6 +61,7 @@ namespace cis237Assignment6.Controllers
         }
 
         // GET: /Beverages/Edit/5
+        [Authorize]
         public ActionResult Edit(string id)
         {
             if (id == null)
@@ -76,6 +79,7 @@ namespace cis237Assignment6.Controllers
         // POST: /Beverages/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include="id,name,pack,price,active")] Beverage beverage)
@@ -90,6 +94,7 @@ namespace cis237Assignment6.Controllers
         }
 
         // GET: /Beverages/Delete/5
+        [Authorize]
         public ActionResult Delete(string id)
         {
             if (id == null)
@@ -105,6 +110,7 @@ namespace cis237Assignment6.Controllers
         }
 
         // POST: /Beverages/Delete/5
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
@@ -115,6 +121,7 @@ namespace cis237Assignment6.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize]
         protected override void Dispose(bool disposing)
         {
             if (disposing)
