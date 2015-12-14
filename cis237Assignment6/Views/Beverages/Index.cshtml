@@ -6,6 +6,31 @@
 
 <h2>Index</h2>
 
+<div class="form-group">
+    <fieldset>
+        <legend>Search Filter</legend>
+        @{
+            using (Html.BeginForm("Filter", "Beverages", FormMethod.Post, new { @class = "form-inline" }))
+            {
+                @Html.AntiForgeryToken();
+                <label for="name">Name</label>
+                @Html.TextBox("name", (string)ViewBag.filterName);
+                <label for="pack">Pack</label>
+                @Html.TextBox("pack", (string)ViewBag.filterPack);
+                <label for="minPrice">Min Price</label>
+                @Html.TextBox("minPrice", (string)ViewBag.filterMinPrice);
+                <label for="maxPrice">Max Price</label>
+                @Html.TextBox("maxPrice", (string)ViewBag.filterMaxPrice);
+                <label for="active">Active</label>
+                @Html.DropDownList("active", (IEnumerable<SelectListItem>)ViewBag.dropBoxList);
+           <br />
+           <input type="submit" value="Filter" class="btn btn-info pull-right" />
+           }
+        }
+    </fieldset>
+</div>
+<br />
+
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
