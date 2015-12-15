@@ -29,6 +29,9 @@ namespace cis237Assignment6.Controllers
             decimal minPrice = 0m;
             decimal maxPrice = 100m;
 
+            bool filterActiveBool = false;
+            bool filterActiveNoFilter = false;
+
             if (Session["name"] != null && !String.IsNullOrWhiteSpace((string)Session["name"]))
             {
                 filterName = (string)Session["name"];
@@ -53,8 +56,19 @@ namespace cis237Assignment6.Controllers
 
             if (Session["active"] != null && !String.IsNullOrWhiteSpace((string)Session["active"]))
             {
-                filterPack = (string)Session["active"];
+                if ((string)Session["active"] == "True")
+                {
+                    filterActive = "True";
+                }
+                else
+	            {
+                    filterActive = "False";
+	            }
             }
+            else
+	        {
+                filterActive = "";
+	        }
 
             IEnumerable<Beverage> filtered = BeveragesToSearch.Where(B => B.name.Contains(filterName) && B.pack.Contains(filterPack) && B.price >= minPrice && B.price <= maxPrice);
 
@@ -70,6 +84,7 @@ namespace cis237Assignment6.Controllers
             ViewBag.filterPack = filterPack;
             ViewBag.filterMinPrice = filterMinPrice;
             ViewBag.filterMaxPrice = filterMaxPrice;
+            ViewBag.filterActive = filterActive;
             ViewBag.dropBoxList = dropBoxList;
 
             return View(finalFiltered);
