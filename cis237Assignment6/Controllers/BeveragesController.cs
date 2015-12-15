@@ -75,9 +75,33 @@ namespace cis237Assignment6.Controllers
             IEnumerable<Beverage> finalFiltered = filtered.ToList();
 
             List<SelectListItem> list = new List<SelectListItem> { };
-            list.Add(new SelectListItem { Text = "", Value = ""});
-            list.Add(new SelectListItem { Text = "True", Value = "True"});
-            list.Add(new SelectListItem { Text = "False", Value = "False"});
+            if (filterActive == "")
+            {
+                list.Add(new SelectListItem { Text = "", Value = "", Selected = true});
+            }
+            else
+            {
+                list.Add(new SelectListItem { Text = "", Value = "" });
+            }
+
+            if (filterActive == "True")
+            {
+                list.Add(new SelectListItem { Text = "True", Value = "True", Selected = true});
+            }
+            else
+            {
+                list.Add(new SelectListItem { Text = "True", Value = "True" });
+            }
+
+            if (filterActive == "False")
+            {
+                list.Add(new SelectListItem { Text = "False", Value = "False", Selected = true});
+            }
+            else
+            {
+                list.Add(new SelectListItem { Text = "False", Value = "False" });
+            }
+            
 
             IEnumerable<SelectListItem> dropBoxList = new List<SelectListItem> { new SelectListItem{ Text = "", Value = "" }, new SelectListItem{ Text = "True", Value="True"}, new SelectListItem{ Text = "False", Value = "False"}};
             ViewBag.filterName = filterName;
@@ -203,12 +227,14 @@ namespace cis237Assignment6.Controllers
             string pack = Request.Form.Get("pack");
             string minPrice = Request.Form.Get("minPrice");
             string maxPrice = Request.Form.Get("maxPrice");
+            string active = Request.Form.Get("active");
 
             //Store the form data into the session so that it can be retrieved later on to filter the data.
             Session["name"] = name;
             Session["pack"] = pack;
             Session["minPrice"] = minPrice;
             Session["maxPrice"] = maxPrice;
+            Session["active"] = active;
 
             //Redirect the user to the index page. We will do the work of actually filtering the list in the index method.
             return RedirectToAction("Index");
