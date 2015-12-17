@@ -3,6 +3,7 @@
 ## Due 12-17-2015
 
 ## Author
+Andrejs Tomsons
 
 ## Description
 
@@ -98,5 +99,5 @@ This one is okay, and it is from Microsoft:
 ## Outside Resources Used
 
 ## Known Problems, Issues, And/Or Errors in the Program
-
+A script crashes in beverages/index all the time, sorry.
 

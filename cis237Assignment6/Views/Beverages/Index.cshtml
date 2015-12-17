@@ -13,15 +13,15 @@
             using (Html.BeginForm("Filter", "Beverages", FormMethod.Post, new { @class = "form-inline" }))
             {
                 @Html.AntiForgeryToken();
-                <label for="name">Name</label>
+                <label for="name">Name </label>
                 @Html.TextBox("name", (string)ViewBag.filterName);
-                <label for="pack">Pack</label>
+                <label for="pack">Pack </label>
                 @Html.TextBox("pack", (string)ViewBag.filterPack);
-                <label for="minPrice">Min Price</label>
+                <label for="minPrice">Min Price &nbsp;$</label>
                 @Html.TextBox("minPrice", (string)ViewBag.filterMinPrice);
-                <label for="maxPrice">Max Price</label>
+                <label for="maxPrice">Max Price &nbsp;$</label>
                 @Html.TextBox("maxPrice", (string)ViewBag.filterMaxPrice);
-                <label for="active">Active</label>
+                <label for="active">Active </label>
                 @Html.DropDownList("active", (IEnumerable<SelectListItem>)ViewBag.dropBoxList);
            <br />
            <input type="submit" value="Filter" class="btn btn-info pull-right" />
@@ -53,78 +53,25 @@
 
 @foreach (var item in Model)
 {
-    if (ViewBag.filterActive == "True")
-    {
-        if (item.active)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.pack)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.active)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.id })
-                </td>
-            </tr>
-        }
-    }
-    else if (ViewBag.filterActive == "False")
-    {
-        if (!item.active)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.pack)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.active)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.id })
-                </td>
-            </tr>
-        }
-    }
-    else
-    {
-        <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.pack)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.active)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.id })
-                </td>
-            </tr>
-    }
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pack)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.active)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.id })
+        </td>
+    </tr>
 }
 
 </table>

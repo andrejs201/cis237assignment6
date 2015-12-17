@@ -22,3 +22,37 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.containsAll {
+    box-shadow: 10px 10px 28px 0px rgba(0,0,0,0.75);
+}
+
+.containsBorders {
+    border: 3px dashed black;
+    border-radius: 5px;
+}
+
+.containsBorders2 {
+    border: 3px double black;
+    border-radius: 5px;
+}
+
+.containsBody {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 75%;
+}
+
+.containsRed {
+    background-color: indianred;
+}
+
+tr:nth-child(even) {
+    background-color: lightgray;
+}
+
+tr {
+    border-left: solid green 2px;
+    border-right: solid red 2px;
+}

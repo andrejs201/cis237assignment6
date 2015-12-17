@@ -1,4 +1,6 @@
-﻿using System;
+﻿//Andrejs Tomsons
+
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -20,6 +22,9 @@ namespace cis237Assignment6.Controllers
         {
             DbSet<Beverage> BeveragesToSearch = db.Beverages;
 
+            //Declare variables
+            IEnumerable<Beverage> filtered = null;
+
             string filterName = "";
             string filterPack = "";
             string filterMinPrice = "";
@@ -29,86 +34,66 @@ namespace cis237Assignment6.Controllers
             decimal minPrice = 0m;
             decimal maxPrice = 100m;
 
-            bool filterActiveBool = false;
-            bool filterActiveNoFilter = false;
-
+            //Set filterName
             if (Session["name"] != null && !String.IsNullOrWhiteSpace((string)Session["name"]))
             {
                 filterName = (string)Session["name"];
             }
 
+            //Set filterPack
             if (Session["pack"] != null && !String.IsNullOrWhiteSpace((string)Session["pack"]))
             {
                 filterPack = (string)Session["pack"];
             }
 
+            //Set filterMinPrice
             if (Session["minPrice"] != null && !String.IsNullOrWhiteSpace((string)Session["minPrice"]))
             {
                 filterMinPrice = (string)Session["minprice"];
                 minPrice = Convert.ToDecimal(filterMinPrice);
             }
 
+            //Set filterMaxPrice
             if (Session["maxPrice"] != null && !String.IsNullOrWhiteSpace((string)Session["maxPrice"]))
             {
                 filterMaxPrice = (string)Session["maxPrice"];
                 maxPrice = Convert.ToDecimal(filterMaxPrice);
             }
 
+            //Set filterActive
             if (Session["active"] != null && !String.IsNullOrWhiteSpace((string)Session["active"]))
             {
-                if ((string)Session["active"] == "True")
-                {
-                    filterActive = "True";
-                }
-                else
-	            {
-                    filterActive = "False";
-	            }
+                filterActive = (string)Session["active"];
             }
             else
 	        {
                 filterActive = "";
 	        }
 
-            IEnumerable<Beverage> filtered = BeveragesToSearch.Where(B => B.name.Contains(filterName) && B.pack.Contains(filterPack) && B.price >= minPrice && B.price <= maxPrice);
+            //Filter by name, pack and price
+            if (filterActive == "")
+            filtered = BeveragesToSearch.Where(B => B.name.Contains(filterName) && B.pack.Contains(filterPack) && B.price >= minPrice && B.price <= maxPrice);
+
+            //Filter by name, pack, price and active true
+            if (filterActive == "True")
+            filtered = BeveragesToSearch.Where(B => B.name.Contains(filterName) && B.pack.Contains(filterPack) && B.price >= minPrice && B.price <= maxPrice && B.active == true);
+
+            //Filter by name, pack, price and active false
+            if (filterActive == "False")
+            filtered = BeveragesToSearch.Where(B => B.name.Contains(filterName) && B.pack.Contains(filterPack) && B.price >= minPrice && B.price <= maxPrice && B.active == false);
 
             IEnumerable<Beverage> finalFiltered = filtered.ToList();
 
-            List<SelectListItem> list = new List<SelectListItem> { };
-            if (filterActive == "")
-            {
-                list.Add(new SelectListItem { Text = "", Value = "", Selected = true});
-            }
-            else
-            {
-                list.Add(new SelectListItem { Text = "", Value = "" });
-            }
+            //Create an array of SelectListItems for the dropbox with if statements to choose which one is selected.
+            IEnumerable<SelectListItem> dropBoxList = new List<SelectListItem> { (filterActive == "") ? new SelectListItem { Text = "", Value = "", Selected = true } : new SelectListItem { Text = "", Value = "" }, 
+                                                                                 (filterActive == "True") ? new SelectListItem { Text = "True", Value = "True", Selected = true } : new SelectListItem { Text = "True", Value = "True" }, 
+                                                                                 (filterActive == "False") ? new SelectListItem { Text = "False", Value = "False", Selected = true } : new SelectListItem { Text = "False", Value = "False" }};
 
-            if (filterActive == "True")
-            {
-                list.Add(new SelectListItem { Text = "True", Value = "True", Selected = true});
-            }
-            else
-            {
-                list.Add(new SelectListItem { Text = "True", Value = "True" });
-            }
-
-            if (filterActive == "False")
-            {
-                list.Add(new SelectListItem { Text = "False", Value = "False", Selected = true});
-            }
-            else
-            {
-                list.Add(new SelectListItem { Text = "False", Value = "False" });
-            }
-            
-
-            IEnumerable<SelectListItem> dropBoxList = new List<SelectListItem> { new SelectListItem{ Text = "", Value = "" }, new SelectListItem{ Text = "True", Value="True"}, new SelectListItem{ Text = "False", Value = "False"}};
+            //Put the needed variables in the ViewBag for later
             ViewBag.filterName = filterName;
             ViewBag.filterPack = filterPack;
             ViewBag.filterMinPrice = filterMinPrice;
             ViewBag.filterMaxPrice = filterMaxPrice;
-            ViewBag.filterActive = filterActive;
             ViewBag.dropBoxList = dropBoxList;
 
             return View(finalFiltered);
@@ -222,21 +207,13 @@ namespace cis237Assignment6.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Filter()
         {
-            //Get the form data that was sent out of the Request object. The string that is used as a key to get the data matches the name property of the form control.
-            string name = Request.Form.Get("name");
-            string pack = Request.Form.Get("pack");
-            string minPrice = Request.Form.Get("minPrice");
-            string maxPrice = Request.Form.Get("maxPrice");
-            string active = Request.Form.Get("active");
+            //Store data from the form into the session
+            Session["name"] = Request.Form.Get("name");
+            Session["pack"] = Request.Form.Get("pack");
+            Session["minPrice"] = Request.Form.Get("minPrice");
+            Session["maxPrice"] = Request.Form.Get("maxPrice");
+            Session["active"] = Request.Form.Get("active");
 
-            //Store the form data into the session so that it can be retrieved later on to filter the data.
-            Session["name"] = name;
-            Session["pack"] = pack;
-            Session["minPrice"] = minPrice;
-            Session["maxPrice"] = maxPrice;
-            Session["active"] = active;
-
-            //Redirect the user to the index page. We will do the work of actually filtering the list in the index method.
             return RedirectToAction("Index");
         }
     }
